@@ -1,0 +1,6 @@
+framework module QRVideoRecord {
+  umbrella header "QRVideoRecord-umbrella.h"
+
+  export *
+  module * { export * }
+}

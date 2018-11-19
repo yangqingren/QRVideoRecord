@@ -1,13 +1,11 @@
-source 'https://github.com/CocoaPods/Specs.git'
+use_frameworks!
 
-source 'git@192.168.36.42:iOSComponent/Spec.git'
+target 'QRVideoRecord_Example' do
+  pod 'QRVideoRecord', :path => '../'
 
-target 'LBVideoRecord_Example' do
-    pod 'LBVideoRecord', :path => '../'
+  target 'QRVideoRecord_Tests' do
+    inherit! :search_paths
+
     
-    target 'LBVideoRecord_Tests' do
-        inherit! :search_paths
-        
-        
-    end
+  end
 end

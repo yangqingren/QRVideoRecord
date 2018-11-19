@@ -1,8 +1,8 @@
 //
-//  LBVideoRecordTests.m
-//  LBVideoRecordTests
+//  QRVideoRecordTests.m
+//  QRVideoRecordTests
 //
-//  Created by yangqingren on 11/12/2018.
+//  Created by yangqingren on 11/19/2018.
 //  Copyright (c) 2018 yangqingren. All rights reserved.
 //
 

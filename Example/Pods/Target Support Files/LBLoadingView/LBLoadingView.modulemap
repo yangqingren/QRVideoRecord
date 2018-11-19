@@ -1,6 +1,0 @@
-framework module LBLoadingView {
-  umbrella header "LBLoadingView-umbrella.h"
-
-  export *
-  module * { export * }
-}

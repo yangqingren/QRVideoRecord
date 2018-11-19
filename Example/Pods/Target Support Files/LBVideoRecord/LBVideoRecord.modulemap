@@ -1,6 +1,0 @@
-framework module LBVideoRecord {
-  umbrella header "LBVideoRecord-umbrella.h"
-
-  export *
-  module * { export * }
-}
