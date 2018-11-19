@@ -29,14 +29,12 @@ TODO: Add long description of the pod here.
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
-
+  
   s.source_files = 'QRVideoRecord/Classes/**/*'
   
-  # s.resource_bundles = {
-  #   'QRVideoRecord' => ['QRVideoRecord/Assets/*.png']
-  # }
+  s.resource     = 'QRVideoRecord/Assets/*.bundle'
+  
+  s.dependency 'WechatShortVideo'
+  s.dependency 'Masonry'
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
 end
