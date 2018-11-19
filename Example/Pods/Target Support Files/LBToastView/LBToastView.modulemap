@@ -1,0 +1,6 @@
+framework module LBToastView {
+  umbrella header "LBToastView-umbrella.h"
+
+  export *
+  module * { export * }
+}

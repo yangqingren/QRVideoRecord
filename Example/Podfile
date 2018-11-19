@@ -1,0 +1,13 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+source 'git@192.168.36.42:iOSComponent/Spec.git'
+
+target 'LBVideoRecord_Example' do
+    pod 'LBVideoRecord', :path => '../'
+    
+    target 'LBVideoRecord_Tests' do
+        inherit! :search_paths
+        
+        
+    end
+end
