@@ -7,12 +7,19 @@
 //
 
 #import "QRAppDelegate.h"
+#import "QRViewController.h"
 
 @implementation QRAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:[[QRViewController alloc] init]];
+    
+    UITabBarController *tab = [[UITabBarController alloc] init];
+    tab.viewControllers = @[nav];
+    
+    self.window.rootViewController = tab;
+    
     return YES;
 }
 

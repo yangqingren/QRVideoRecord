@@ -34,7 +34,8 @@ TODO: Add long description of the pod here.
   
   s.resource     = 'QRVideoRecord/Assets/*.bundle'
   
-  s.dependency 'WechatShortVideo'
+  s.dependency 'SCRecorder'
   s.dependency 'Masonry'
+  s.dependency 'MBProgressHUD'
 
 end

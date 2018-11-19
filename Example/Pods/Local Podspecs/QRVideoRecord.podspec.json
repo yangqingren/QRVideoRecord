@@ -21,10 +21,13 @@
   "source_files": "QRVideoRecord/Classes/**/*",
   "resources": "QRVideoRecord/Assets/*.bundle",
   "dependencies": {
-    "WechatShortVideo": [
+    "SCRecorder": [
 
     ],
     "Masonry": [
+
+    ],
+    "MBProgressHUD": [
 
     ]
   }

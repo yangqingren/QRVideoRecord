@@ -6,11 +6,10 @@
 //
 
 #import "QRVideoRecordViewController.h"
-#import <SCRecorder.h>
-#import <Masonry.h>
-#import <SCRecordSessionManager.h>
-#import <LBLoadingView.h>
-#import <LBToastView.h>
+#import <SCRecorder/SCRecorder.h>
+#import <Masonry/Masonry.h>
+#import <SCRecordSession+qrRecordManager.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 
 #define LB_VIDEO_MAX_TIME       30.0
 
@@ -53,8 +52,8 @@
         _captureRealBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_captureRealBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         _captureRealBtn.layer.borderColor = [UIColor blueColor].CGColor;
-        [_captureRealBtn setImage:[UIImage imageNamed:@"LBVideoRecord.bundle/startVideo"] forState:UIControlStateNormal];
-        [_captureRealBtn setImage:[UIImage imageNamed:@"LBVideoRecord.bundle/endVideo"] forState:UIControlStateSelected];
+        [_captureRealBtn setImage:[UIImage imageNamed:@"QRVideoRecord.bundle/startVideo"] forState:UIControlStateNormal];
+        [_captureRealBtn setImage:[UIImage imageNamed:@"QRVideoRecord.bundle/endVideo"] forState:UIControlStateSelected];
         [_captureRealBtn addTarget:self action:@selector(captureStartTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
         _captureRealBtn.layer.cornerRadius = 72 / 2.0;
         _captureRealBtn.layer.masksToBounds = YES;
@@ -65,7 +64,7 @@
 - (UIButton *)closeBtn {
     if (!_closeBtn) {
         _closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_closeBtn setImage:[UIImage imageNamed:@"LBVideoRecord.bundle/close"] forState:UIControlStateNormal];
+        [_closeBtn setImage:[UIImage imageNamed:@"QRVideoRecord.bundle/close"] forState:UIControlStateNormal];
         [_closeBtn addTarget:self action:@selector(closeAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _closeBtn;
@@ -74,7 +73,7 @@
 - (UIButton *)recurBtn {
     if (!_recurBtn) {
         _recurBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_recurBtn setImage:[UIImage imageNamed:@"LBVideoRecord.bundle/recurVideo"] forState:UIControlStateNormal];
+        [_recurBtn setImage:[UIImage imageNamed:@"QRVideoRecord.bundle/recurVideo"] forState:UIControlStateNormal];
         [_recurBtn addTarget:self action:@selector(removePreviewMode) forControlEvents:UIControlEventTouchUpInside];
     }
     return _recurBtn;
@@ -83,7 +82,7 @@
 - (UIButton *)saveBtn {
     if (!_saveBtn) {
         _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_saveBtn setImage:[UIImage imageNamed:@"LBVideoRecord.bundle/nextVideo"] forState:UIControlStateNormal];
+        [_saveBtn setImage:[UIImage imageNamed:@"QRVideoRecord.bundle/nextVideo"] forState:UIControlStateNormal];
         [_saveBtn addTarget:self action:@selector(saveBtnAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _saveBtn;
@@ -159,16 +158,15 @@
     
     // 清晰度
     switch (self.recordQuality) {
-            case LBVideoRecordHighestQuality:
+        case QRVideoRecordHighestQuality:
             self.SCRQuality = SCPresetHighestQuality;
             break;
-            case LBVideoRecordMediumQuality:
+        case QRVideoRecordMediumQuality:
             self.SCRQuality = SCPresetMediumQuality;
             break;
-            case LBVideoRecordLowQuality:
+        case QRVideoRecordLowQuality:
             self.SCRQuality = SCPresetLowQuality;
             break;
-            
         default:
             break;
     }
@@ -182,7 +180,6 @@
 }
 
 - (void)doNextWhenVideoSavedSuccess {
-    //file path is VIDEO_OUTPUTFILE
     if ([delegate respondsToSelector:@selector(finishVideoRecordCapture:filePath:fileName:)]) {
         [delegate finishVideoRecordCapture:[NSURL fileURLWithPath:VIDEO_OUTPUTFILE] filePath:VIDEO_OUTPUTFILE fileName:self.videoFileName];
     }
@@ -246,14 +243,16 @@
     }
 }
 
-- (void)otherSet {
+- (void)setFlashMode:(AVCaptureFlashMode)flashMode {
     // 闪光灯
-    _recorder.flashMode = AVCaptureFlashModeOff;
+    _flashMode = flashMode;
+    _recorder.flashMode = flashMode;
+}
+
+- (void)setDevicePosition:(AVCaptureDevicePosition)devicePosition {
     // 切换摄像头
-    _recorder.device = AVCaptureDevicePositionBack;
-    [_recorder switchCaptureDevices];
-    // 缩放
-    _recorder.videoZoomFactor = 2;
+    _devicePosition = devicePosition;
+    _recorder.device = devicePosition;
 }
 
 #pragma mark - 开始录制/结束录制
@@ -307,7 +306,7 @@
             SCRecordSession *recordSession = _recorder.session;
             if (recordSession != nil) {
                 _recorder.session = nil;
-                if ([[SCRecordSessionManager sharedInstance] isSaved:recordSession]) {
+                if ([recordSession qr_isSaved]) {
                     [recordSession endSegmentWithInfo:nil completionHandler:nil];
                 } else {
                     [recordSession cancelSession:nil];
@@ -392,10 +391,6 @@
 }
 
 - (void)saveBtnAction {
-    if (self.doNextAction) {
-        self.doNextAction();
-        return;
-    }
     [self saveCapture];
 }
 
@@ -404,12 +399,12 @@
     [_player pause];
     void(^completionHandler)(NSURL *url, NSError *error) = ^(NSURL *url, NSError *error) {
         if (error == nil) {
-            [LBLoadingView dismiss];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self doNextWhenVideoSavedSuccess];
         } else {
-            [LBLoadingView dismiss];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self removePreviewMode];
-            [LBToastView showByMessage:@"视频录制失败，内存不足"];
+            NSLog(@"录制失败");
         }
     };
     
@@ -424,7 +419,7 @@
     exportSession.outputFileType = AVFileTypeMPEG4;
     exportSession.delegate = self;
     
-    [LBLoadingView showInView:self.view];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     CFTimeInterval time = CACurrentMediaTime();
     [exportSession exportAsynchronouslyWithCompletionHandler:^{

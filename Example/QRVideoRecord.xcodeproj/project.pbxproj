@@ -23,6 +23,7 @@
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		B176F862968A55054EFFEEC0 /* Pods_QRVideoRecord_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5741315AB33F417A9A2D784C /* Pods_QRVideoRecord_Tests.framework */; };
+		E873853E21A2A8740077F72B /* QRVideoRecord.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E873853D21A2A8740077F72B /* QRVideoRecord.bundle */; };
 		EF19EE6B647DFDDC2EA520EA /* Pods_QRVideoRecord_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C23F13B82580F5B0B9405DBA /* Pods_QRVideoRecord_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		AC21FF0683AA1B25949191EA /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		C23F13B82580F5B0B9405DBA /* Pods_QRVideoRecord_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QRVideoRecord_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E18EBE1BDBA61E806A1D4F85 /* QRVideoRecord.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = QRVideoRecord.podspec; path = ../QRVideoRecord.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		E873853D21A2A8740077F72B /* QRVideoRecord.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = QRVideoRecord.bundle; sourceTree = "<group>"; };
 		F19A635004764A75BB1EA7C2 /* Pods-QRVideoRecord_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QRVideoRecord_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-QRVideoRecord_Example/Pods-QRVideoRecord_Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,6 +100,7 @@
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
+				E873853D21A2A8740077F72B /* QRVideoRecord.bundle */,
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* Example for QRVideoRecord */,
 				6003F5B5195388D20070C39A /* Tests */,
@@ -250,6 +253,9 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = yangqingren;
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = 6969MSFBTY;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -279,6 +285,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E873853E21A2A8740077F72B /* QRVideoRecord.bundle in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
@@ -344,7 +351,6 @@
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/QRVideoRecord/QRVideoRecord.framework",
 				"${BUILT_PRODUCTS_DIR}/SCRecorder/SCRecorder.framework",
-				"${BUILT_PRODUCTS_DIR}/WechatShortVideo/WechatShortVideo.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -352,7 +358,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QRVideoRecord.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCRecorder.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WechatShortVideo.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -541,9 +546,11 @@
 			baseConfigurationReference = F19A635004764A75BB1EA7C2 /* Pods-QRVideoRecord_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6969MSFBTY;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QRVideoRecord/QRVideoRecord-Prefix.pch";
 				INFOPLIST_FILE = "QRVideoRecord/QRVideoRecord-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -556,9 +563,11 @@
 			baseConfigurationReference = 1A0D3102ECF8875AEE0D9BE6 /* Pods-QRVideoRecord_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6969MSFBTY;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "QRVideoRecord/QRVideoRecord-Prefix.pch";
 				INFOPLIST_FILE = "QRVideoRecord/QRVideoRecord-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";

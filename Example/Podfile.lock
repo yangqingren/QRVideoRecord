@@ -1,13 +1,11 @@
 PODS:
   - Masonry (1.1.0)
-  - MBProgressHUD (0.9.2)
+  - MBProgressHUD (1.1.0)
   - QRVideoRecord (0.1.0):
     - Masonry
-    - WechatShortVideo
+    - MBProgressHUD
+    - SCRecorder
   - SCRecorder (2.6.1)
-  - WechatShortVideo (0.1.9):
-    - MBProgressHUD (~> 0.9.1)
-    - SCRecorder (~> 2.6.1)
 
 DEPENDENCIES:
   - QRVideoRecord (from `../`)
@@ -18,10 +16,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
-  QRVideoRecord: f220d2946f0f5b3e6e698491ebbf3464a5a033ea
+  MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
+  QRVideoRecord: 45e03407053dd14c687c231e5a2cbcdf7f9ecb1b
   SCRecorder: ef11bc34094c43201cc7c94fa9aeb5266e5b9cf7
-  WechatShortVideo: 641329195e972b9e1d697d2d3417e74a05d36b11
 
 PODFILE CHECKSUM: a6e1d4a584c569b012a35e0bc673eb972fc5e2d9
 
