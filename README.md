@@ -16,13 +16,14 @@ To run the example project, clone the repo, and run `pod install` from the Examp
      vc.delegate = (id <QRVideoRecordDelegate>)self;
      [self presentViewController:vc animated:YES completion:nil];
      
-     /**
-      videoRecordResult
+    /**
+     * video record result
 
-      @param fileURL 文件url
-      @param filePath 文件路径
-      @param fileName 文件名
-      */
+     * @param fileURL video local url
+     * @param filePath video local path
+     * @param fileName video name
+     * fileURL will be triggered after video recording is finished.
+     */
      - (void)finishVideoRecordCapture:(NSURL *)fileURL filePath:(NSString *)filePath fileName:(NSString *)fileName;
      
      If you want to expand...
@@ -32,20 +33,56 @@ To run the example project, clone the repo, and run `pod install` from the Examp
      @end
      
      other usage
-     // 获取视频url第一帧图片
-     + (UIImage*)getVideoPreViewImage:(NSURL *)url;
-     // 计算文件大小
-     + (CGFloat)fileSize:(NSURL *)path;
-     // 磁盘video文件夹路径
-     + (NSString *)getVideoContents;
-     // 清理video文件夹
-     + (BOOL)clearVideoContents;
+    /**
+     * cut out video preview
+     * @param url video local url
+     * @return video preview
+     * video preview expect get video the first frame
+     */
+    + (UIImage*)getVideoPreViewImage:(NSURL *)url;
+
+    /**
+     * calculation out video file size
+     * @param path video local url
+     * @return video size
+     * video size unit is MB
+     */
+    + (CGFloat)fileSize:(NSURL *)path;
+
+    /**
+     * disk address
+     * you can get the video folder stored in the local sandbox, so that you can manage the sandbox storage.
+     */
+    + (NSString *)getVideoContents;
+
+    /**
+     * clear video disk folder
+     * if the memory of the mobile phone is too small, the video recording will fail. We hope to clean up the video files in the local sandbox when the page is destroyed.
+     */
+    + (BOOL)clearVideoContents;
      
      other expand
-     @property (nonatomic, assign) AVCaptureFlashMode flashMode;  // 闪光灯
-     @property (nonatomic, assign) AVCaptureDevicePosition devicePosition;  // 前后摄像头
-     // 结束录制拓展方法
-     - (void)doNextWhenVideoSavedSuccess;
+    /**
+     * flash lamp
+     * set this property so that you can set up and turn off the astigmatism conveniently.
+     * expand property
+     */
+    @property (nonatomic, assign) AVCaptureFlashMode flashMode;
+
+    /**
+     * camera direction
+     * set this property So that you can easily change the front and rear cameras.
+     * expand property, nullable property
+     */
+    @property (nonatomic, assign) AVCaptureDevicePosition devicePosition;
+
+
+    /**
+     * video record result call.
+     * you can do your video recording after completion, such as jump page.
+     * The extension must first call the parent class method. use super doNextWhenVideoSavedSuccess will be call fileURL completion
+     */
+    - (void)doNextWhenVideoSavedSuccess;
      
 
 ## Installation
