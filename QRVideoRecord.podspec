@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'QRVideoRecord'
   s.version          = '0.1.2'
-  s.summary          = 'A short description of QRVideoRecord.'
+  s.summary          = 'video recording component. 视频录制'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
