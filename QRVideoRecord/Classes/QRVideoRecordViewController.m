@@ -245,7 +245,7 @@
 
 - (void)setFlashMode:(AVCaptureFlashMode)flashMode {
     _flashMode = flashMode;
-    _recorder.flashMode = flashMode;
+    _recorder.flashMode = [@(flashMode) integerValue];
 }
 
 - (void)setDevicePosition:(AVCaptureDevicePosition)devicePosition {

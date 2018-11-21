@@ -29,8 +29,6 @@ typedef NS_ENUM(NSInteger, QRVideoRecordQuality) {
     QRVideoRecordLowQuality = 3
 };
 
-NS_ASSUME_NONNULL_BEGIN
-
 @interface QRVideoRecordViewController : UIViewController
 
 /**
@@ -103,8 +101,7 @@ NS_ASSUME_NONNULL_BEGIN
  * you can do your video recording after completion, such as jump page.
  * The extension must first call the parent class method. use super doNextWhenVideoSavedSuccess will be call fileURL completion
  */
-- (void)doNextWhenVideoSavedSuccess; 
+- (void)doNextWhenVideoSavedSuccess;
 
 @end
 
-NS_ASSUME_NONNULL_END

@@ -11,6 +11,7 @@
 #endif
 
 #import "QRVideoRecord.h"
+#import "QRVideoRecordEdit.h"
 #import "QRVideoRecordManager.h"
 #import "QRVideoRecordViewController.h"
 #import "SCRecordSession+qrRecordManager.h"

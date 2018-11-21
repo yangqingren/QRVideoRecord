@@ -2,7 +2,9 @@
 //
 //  SCRecordSession+qrRecordManager.m
 //  LBCategory
-//
+//  pod lib create QRVideoRecord
+//  pod lib lint --allow-warnings
+//  pod trunk push --allow-warnings --use-libraries
 //  Created by 杨庆人 on 2018/11/19.
 //
 
