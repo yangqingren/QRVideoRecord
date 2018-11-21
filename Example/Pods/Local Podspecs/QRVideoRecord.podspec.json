@@ -1,6 +1,6 @@
 {
   "name": "QRVideoRecord",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "summary": "A short description of QRVideoRecord.",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/yangqingren/QRVideoRecord",
@@ -13,8 +13,13 @@
   },
   "source": {
     "git": "https://github.com/yangqingren/QRVideoRecord.git",
-    "tag": "0.1.0"
+    "tag": "0.1.1"
   },
+  "frameworks": [
+    "AVFoundation",
+    "Foundation",
+    "UIKit"
+  ],
   "platforms": {
     "ios": "8.0"
   },

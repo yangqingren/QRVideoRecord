@@ -6,6 +6,7 @@
 //
 
 #import <SCRecorder/SCRecordSession.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface SCRecordSession (qrRecordManager)
@@ -18,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)qr_removeRecordSessionAtIndex:(NSInteger)index;
 
-- (NSArray *)qr_savedRecordSessions;
++ (NSArray *)qr_savedRecordSessions;
 
 @end
 

@@ -14,15 +14,15 @@
 #define LB_VIDEO_MAX_TIME       30.0
 
 @interface QRVideoRecordViewController ()<SCRecorderDelegate, SCAssetExportSessionDelegate>
-@property (strong, nonatomic) UIView *scanPreviewView;  // 视频层
-@property (strong, nonatomic) UIButton *captureRealBtn;  // 录制按钮
-@property (strong, nonatomic) UIButton *recurBtn;  // 重录按钮
-@property (strong, nonatomic) UIButton *saveBtn;  // 录制按钮
-@property (strong, nonatomic) UIButton *closeBtn;  // close
-@property (strong, nonatomic) SCRecorderToolsView *focusView; // 实时播放视图
-@property (strong, nonatomic) CAShapeLayer *captureLayer; // 实时播放视图
-@property (copy, nonatomic) NSString *SCRQuality; // 视频质量
-@property (nonatomic, copy) NSString *videoFileName;    // 视频文件名
+@property (strong, nonatomic) UIView *scanPreviewView;  // video layer
+@property (strong, nonatomic) UIButton *captureRealBtn;
+@property (strong, nonatomic) UIButton *recurBtn;
+@property (strong, nonatomic) UIButton *saveBtn;
+@property (strong, nonatomic) UIButton *closeBtn;
+@property (strong, nonatomic) SCRecorderToolsView *focusView; // view of video playing
+@property (strong, nonatomic) CAShapeLayer *captureLayer; // recording progress layer
+@property (copy, nonatomic) NSString *SCRQuality;
+@property (nonatomic, copy) NSString *videoFileName;
 @end
 
 @implementation QRVideoRecordViewController {
@@ -36,7 +36,7 @@
 
 @synthesize delegate;
 
-#pragma mark -setter/getter方法
+#pragma mark -setter/getter
 - (UIView *)scanPreviewView {
     if (!_scanPreviewView) {
         _scanPreviewView = [[UIView alloc] init];
@@ -99,7 +99,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         _videoMaxTime = LB_VIDEO_MAX_TIME;
-        _SCRQuality = SCPresetMediumQuality;
+        _SCRQuality = SCPresetHighestQuality;
     }
     return self;
 }
@@ -111,7 +111,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [_recorder startRunning];  // 预览视频
+    [_recorder startRunning];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -120,7 +120,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [_recorder stopRunning];    // 停止预览
+    [_recorder stopRunning];
 }
 
 - (void)viewDidLoad {
@@ -153,10 +153,9 @@
         make.centerY.mas_equalTo(self.captureRealBtn.mas_centerY);
     }];
     
-    // 视频输出路径
+    // Video output path
     VIDEO_OUTPUTFILE = [self generateFilePathWithType:@"mp4"];
-    
-    // 清晰度
+
     switch (self.recordQuality) {
         case QRVideoRecordHighestQuality:
             self.SCRQuality = SCPresetHighestQuality;
@@ -186,7 +185,7 @@
     [self closeAction:nil];
 }
 
-#pragma mark -录制地址
+#pragma mark -video record path
 - (NSString *)generateFilePathWithType:(NSString *)fileType {
     self.videoFileName = [[self class] getVideoNameWithType:fileType];
     return  [[[self class] getVideoPathCache] stringByAppendingString:[NSString stringWithFormat:@"/%@",self.videoFileName]];
@@ -212,9 +211,10 @@
     return fileName;
 }
 
-#pragma mark -录制设置
+#pragma mark -record setter
 - (void)configRecorder {
-    // 录制设置
+    
+    // record setter
     _recorder = [SCRecorder recorder];
     _recorder.captureSessionPreset = [SCRecorderTools bestCaptureSessionPresetCompatibleWithAllDevices];
     _recorder.maxRecordDuration = CMTimeMake(30 * _videoMaxTime, 30);
@@ -223,12 +223,12 @@
     _recorder.initializeSessionLazily = NO;
     _recorder.previewView = self.scanPreviewView;
     
-    // 实时播放
+    // view of video playing
     self.focusView = [[SCRecorderToolsView alloc] init];
     self.focusView.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
     self.focusView.recorder = _recorder;
     
-    // 聚焦
+    // focusing
     self.focusView.outsideFocusTargetImage = [UIImage imageNamed:@"WechatShortVideo_scan_focus"];
     
     [self.scanPreviewView addSubview:self.focusView];
@@ -236,7 +236,7 @@
         make.edges.mas_equalTo(self.scanPreviewView);
     }];
     
-    // 错误捕获
+    // error capture
     NSError *error;
     if (![_recorder prepare:&error]) {
         NSLog(@"Prepare error: %@", error.localizedDescription);
@@ -244,22 +244,20 @@
 }
 
 - (void)setFlashMode:(AVCaptureFlashMode)flashMode {
-    // 闪光灯
     _flashMode = flashMode;
     _recorder.flashMode = flashMode;
 }
 
 - (void)setDevicePosition:(AVCaptureDevicePosition)devicePosition {
-    // 切换摄像头
     _devicePosition = devicePosition;
     _recorder.device = devicePosition;
 }
 
-#pragma mark - 开始录制/结束录制
+#pragma mark - Start Video Record
 - (void)captureStartTouchUpInside:(UIButton *)captureBtn {
     captureBtn.selected = !captureBtn.selected;
     if (captureBtn.selected) {
-        [_recorder record];  // 开始录制
+        [_recorder record];
         self.closeBtn.hidden = YES;
         if (self.captureLayer && self.captureLayer.superlayer) {
             [self.captureLayer removeFromSuperlayer];
@@ -278,7 +276,7 @@
     }
 }
 
-#pragma mark -录制相对最大时间进度条
+#pragma mark -recording max date progress
 - (void)recorder:(SCRecorder *)recorder didAppendVideoSampleBufferInSession:(SCRecordSession *)recordSession {
     //update progressBar
     //    CGFloat durationTime = CMTimeGetSeconds(recordSession.duration);
@@ -287,16 +285,15 @@
     
 }
 
-#pragma mark -录制最大时间
+#pragma mark -recording max date
 - (void)recorder:(SCRecorder *__nonnull)recorder didCompleteSession:(SCRecordSession *__nonnull)session {
     [self cancelCaptureWithSaveFlag:YES];
     self.captureRealBtn.selected = !self.captureRealBtn.selected;
     self.closeBtn.hidden = NO;
 }
 
-#pragma mark - 结束录制
+#pragma mark - end Video Record
 - (void)cancelCaptureWithSaveFlag:(BOOL)saveFlag {
-    // 停止录制
     [_recorder pause:^{
         if (saveFlag) {
             //Preview and save
@@ -317,7 +314,7 @@
     }];
 }
 
-#pragma mark - 播放预览；设置 重录按钮、保存按钮
+#pragma mark - Play preview set reset button and save button.
 - (void)configPreviewMode {
     if ([self.scanPreviewView viewWithTag:400]) {
         return;
@@ -335,7 +332,7 @@
     [self.scanPreviewView addSubview:playerView];
     _player.loopEnabled = YES;
     [_player setItemByAsset:_recorder.session.assetRepresentingSegments];
-    [_player play];  // 开始播放
+    [_player play];
     
     [self.view addSubview:self.recurBtn];
     [self.view addSubview:self.saveBtn];
@@ -362,7 +359,7 @@
     }];
 }
 
-#pragma mark -重录（移除预览）
+#pragma mark -Recordings（remove preview）
 - (void)removePreviewMode {
     self.captureRealBtn.enabled = YES;
     self.captureRealBtn.hidden = NO;
@@ -394,7 +391,7 @@
     [self saveCapture];
 }
 
-#pragma #pragma mark -视频质量处理、保存
+#pragma #pragma mark -Video quality processing and preservation
 - (void)saveCapture {
     [_player pause];
     void(^completionHandler)(NSURL *url, NSError *error) = ^(NSURL *url, NSError *error) {
@@ -404,17 +401,17 @@
         } else {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self removePreviewMode];
-            NSLog(@"录制失败");
+            NSLog(@"Record failure");
         }
     };
     
-    // 视频开始处理
+    // Video start processing
     [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
     
     SCAssetExportSession *exportSession = [[SCAssetExportSession alloc] initWithAsset:_recorder.session.assetRepresentingSegments];
-    exportSession.videoConfiguration.preset = self.SCRQuality; // 视频质量
-    exportSession.audioConfiguration.preset = self.SCRQuality; // 音频质量
-    exportSession.videoConfiguration.maxFrameRate = 30;     // 最大帧数
+    exportSession.videoConfiguration.preset = self.SCRQuality; // Video quality
+    exportSession.audioConfiguration.preset = self.SCRQuality; // Audio quality
+    exportSession.videoConfiguration.maxFrameRate = 30;     // Max FPS
     exportSession.outputUrl = [NSURL fileURLWithPath:VIDEO_OUTPUTFILE];
     exportSession.outputFileType = AVFileTypeMPEG4;
     exportSession.delegate = self;
@@ -430,22 +427,22 @@
     }];
 }
 
-#pragma mark - 视频质量处理进度
+#pragma mark - Video quality processing progress
 - (void)assetExportSessionDidProgress:(SCAssetExportSession *)assetExportSession {
     //    assetExportSession.progress;
 }
 
-#pragma mark - 关闭VC
+#pragma mark - close VC
 - (void)closeAction:(UIButton *)sender {
     [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
-#pragma mark - 销毁VC
+#pragma mark - dealloc
 - (void)dealloc {
     _recorder.previewView = nil;
     [_player pause];
     _player = nil;
-    NSLog(@"%@已释放",NSStringFromClass([self class]));
+    NSLog(@"%@ dealloc",NSStringFromClass([self class]));
 }
 
 - (CAShapeLayer *)captureBtnLayer:(__kindof UIView *)view {
@@ -489,17 +486,14 @@
     return img;
 }
 
-//计算文件大小
 + (CGFloat)fileSize:(NSURL *)path {
     return [[NSData dataWithContentsOfURL:path] length] / 1024.00 / 1024.00;
 }
 
-// 磁盘video文件夹
 + (NSString *)getVideoContents {
     return [self.class getVideoPathCache];
 }
 
-// 清理video文件夹
 + (BOOL)clearVideoContents {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     return [fileManager removeItemAtPath:[self.class getVideoPathCache] error:nil];

@@ -11,18 +11,19 @@
 @protocol QRVideoRecordDelegate <NSObject>
 
 /**
- 视频录制结果
+ * video record result
 
- @param fileURL 文件url
- @param filePath 文件路径
- @param fileName 文件名
+ * @param fileURL video local url
+ * @param filePath video local path
+ * @param fileName video name
+ * fileURL will be triggered after video recording is finished.
  */
 - (void)finishVideoRecordCapture:(NSURL *)fileURL filePath:(NSString *)filePath fileName:(NSString *)fileName;
 
 @end
 
 typedef NS_ENUM(NSInteger, QRVideoRecordQuality) {
-    // 录制质量
+    // video record quality
     QRVideoRecordHighestQuality = 1,
     QRVideoRecordMediumQuality = 2,
     QRVideoRecordLowQuality = 3
@@ -32,28 +33,77 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface QRVideoRecordViewController : UIViewController
 
-@property (nonatomic, assign) CGFloat videoMaxTime;   // 录制的最大时间，默认30s
-@property (nonatomic, assign) QRVideoRecordQuality recordQuality;   // 录制质量
-@property (nonatomic, weak) id<QRVideoRecordDelegate> delegate;
-@property (nonatomic, copy, readonly) NSString *videoFileName;    // 视频文件名
+/**
+ * video record max time
+ * default 30s
+ */
+@property (nonatomic, assign) CGFloat videoMaxTime;
 
-// 获取本地视频url预览图片
+/**
+ * video record quality
+ * video quality is related to video definition and file size.
+ * default HighestQuality
+ */
+@property (nonatomic, assign) QRVideoRecordQuality recordQuality;
+
+@property (nonatomic, weak, nullable) id <QRVideoRecordDelegate> delegate;
+
+/**
+ * video record name
+ * videoFileName will use date format video_yyyyMMddHHmmss.mp4
+ * readonly property
+ */
+@property (nonatomic, copy, readonly) NSString *videoFileName;
+
+/**
+ * cut out video preview
+ * @param url video local url
+ * @return video preview
+ * video preview expect get video the first frame
+ */
 + (UIImage*)getVideoPreViewImage:(NSURL *)url;
-// 文件大小计算
+
+/**
+ * calculation out video file size
+ * @param path video local url
+ * @return video size
+ * video size unit is MB
+ */
 + (CGFloat)fileSize:(NSURL *)path;
-// 磁盘video文件夹
+
+/**
+ * disk address
+ * you can get the video folder stored in the local sandbox, so that you can manage the sandbox storage.
+ */
 + (NSString *)getVideoContents;
-// 清理video文件夹
+/**
+ * clear video disk folder
+ * if the memory of the mobile phone is too small, the video recording will fail. We hope to clean up the video files in the local sandbox when the page is destroyed.
+ */
 + (BOOL)clearVideoContents;
 
 
 /**
- 拓展
+ * flash lamp
+ * set this property so that you can set up and turn off the astigmatism conveniently.
+ * expand property
  */
-@property (nonatomic, assign) AVCaptureFlashMode flashMode;  // 闪光灯
-@property (nonatomic, assign) AVCaptureDevicePosition devicePosition;  // 前后摄像头
+@property (nonatomic, assign) AVCaptureFlashMode flashMode;
 
-- (void)doNextWhenVideoSavedSuccess; // use [super doNextWhenVideoSavedSuccess]
+/**
+ * camera direction
+ * set this property So that you can easily change the front and rear cameras.
+ * expand property, nullable property
+ */
+@property (nonatomic, assign) AVCaptureDevicePosition devicePosition;
+
+
+/**
+ * video record result call.
+ * you can do your video recording after completion, such as jump page.
+ * The extension must first call the parent class method. use super doNextWhenVideoSavedSuccess will be call fileURL completion
+ */
+- (void)doNextWhenVideoSavedSuccess; 
 
 @end
 
