@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'QRVideoRecord'
-  s.version          = '0.1.3'
+  s.version          = '0.1.4'
   s.summary          = 'video recording component. 视频录制'
 
 # This description is used to generate tags and improve search results.
@@ -24,7 +24,7 @@ TODO: Add long description of the pod here.
   s.homepage         = 'https://github.com/yangqingren/QRVideoRecord'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'yangqingren' => '564008993@qq.com' }
+  s.author           = { '杨庆人' => '564008993@qq.com' }
   s.source           = { :git => 'https://github.com/yangqingren/QRVideoRecord.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
   

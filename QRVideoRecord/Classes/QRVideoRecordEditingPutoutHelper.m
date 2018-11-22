@@ -7,54 +7,50 @@
 //  Created by 杨庆人 on 2018/11/21.
 //
 
-#import "QRVideoRecordEdit.h"
+#import "QRVideoRecordEditingPutoutHelper.h"
 
-@implementation QRVideoRecordEdit
+@implementation QRVideoRecordEditingPutoutHelper
 
 /**
  timeRange
  
  * @param url video path
  * @param startTime
- CMTimeMakeWithSeconds(0, videoAsset.duration.timescale);
+   CMTimeMakeWithSeconds(0, videoAsset.duration.timescale);
  
  * @param endTime
- CMTimeMakeWithSeconds(videoAsset.duration.value /videoAsset.duration.timescale, videoAsset.duration.timescale);
- 
  * CMTimeMake(a,b)
- CMTimeMakeWithSeconds(a,b)
+   CMTimeMakeWithSeconds(a,b)
  
  * @param fileName video name .mp4
  * @param completion urlPath
+ 
+ * If you need clipping video clips, then insert startTime and endTime to intercept the video.The parameters of video interception should be noted in CMTime format.
  */
 + (void)videoEditByTimeRangeWithUrl:(NSURL *)url startTime:(CMTime)startTime endTime:(CMTime)endTime fileName:(NSString *)fileName completion:(void (^)(NSString *urlPath))completion {
     
     if (!url) return;
     
-    // 1. create AVAsset AVAsset contains all the information of video.
+    // 1. create AVAsset contains all the information of video.
     NSDictionary *opts = [NSDictionary dictionaryWithObject:@(YES) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
     AVURLAsset *videoAsset = [AVURLAsset URLAssetWithURL:url options:opts];
-    
-    // audio
-    AVURLAsset * audioAsset = [[AVURLAsset alloc] initWithURL:url options:opts];
+    AVURLAsset *audioAsset = [[AVURLAsset alloc] initWithURL:url options:opts];
     
     // 2. create AVMutableComposition. apple developer
     // AVMutableComposition is a mutable subclass of AVComposition you use when you want to create a new composition from existing assets. You can add and remove tracks, and you can add, remove, and scale time ranges.
     AVMutableComposition *mixComposition = [[AVMutableComposition alloc] init];
     
-    // 3. 视频通道  工程文件中的轨道，有音频轨、视频轨等，里面可以插入各种对应的素材
-    AVMutableCompositionTrack *videoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo
-                                                                        preferredTrackID:kCMPersistentTrackID_Invalid];
-    
-    
+    // 3. Video channel
+    AVMutableCompositionTrack *videoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
     [videoTrack insertTimeRange:CMTimeRangeMake(startTime, endTime)
                         ofTrack:[[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0]
                          atTime:kCMTimeZero error:nil];
     
-    //音频通道
-    AVMutableCompositionTrack * audioTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-    //音频采集通道
-    AVAssetTrack * audioAssetTrack = [[audioAsset tracksWithMediaType:AVMediaTypeAudio] firstObject];
+    // Audio channel
+    AVMutableCompositionTrack *audioTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+    
+    // Audio acquisition channel
+    AVAssetTrack *audioAssetTrack = [[audioAsset tracksWithMediaType:AVMediaTypeAudio] firstObject];
     [audioTrack insertTimeRange:CMTimeRangeMake(startTime, endTime) ofTrack:audioAssetTrack atTime:kCMTimeZero error:nil];
     
     // 3.1 AVMutableVideoCompositionInstruction
@@ -73,21 +69,20 @@
     if (videoTransform.a == 0 && videoTransform.b == -1.0 && videoTransform.c == 1.0 && videoTransform.d == 0) {
         isVideoAssetPortrait = YES;
     }
-    
     [videolayerInstruction setTransform:videoAssetTrack.preferredTransform atTime:kCMTimeZero];
     [videolayerInstruction setOpacity:0.0 atTime:endTime];
+    
     // 3.3 - Add instructions
     mainInstruction.layerInstructions = [NSArray arrayWithObjects:videolayerInstruction,nil];
-    //AVMutableVideoComposition：管理所有视频轨道，可以决定最终视频的尺寸，裁剪需要在这里进行
-    AVMutableVideoComposition *mainCompositionInst = [AVMutableVideoComposition videoComposition];
     
+    //AVMutableVideoComposition：Managing all video tracks can determine the size of the final video, and the clipping needs to be done here.
+    AVMutableVideoComposition *mainCompositionInst = [AVMutableVideoComposition videoComposition];
     CGSize naturalSize;
     if(isVideoAssetPortrait){
         naturalSize = CGSizeMake(videoAssetTrack.naturalSize.height, videoAssetTrack.naturalSize.width);
     } else {
         naturalSize = videoAssetTrack.naturalSize;
     }
-    
     float renderWidth, renderHeight;
     renderWidth = naturalSize.width;
     renderHeight = naturalSize.height;
@@ -96,7 +91,7 @@
     mainCompositionInst.instructions = [NSArray arrayWithObject:mainInstruction];
     mainCompositionInst.frameDuration = CMTimeMake(1, 25);
     
-    // 4 - putout path
+    // 4. putout path
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
@@ -119,7 +114,7 @@
 
 
 /**
- Expression or watermark
+ expression or watermark
  
  * @param url video path
  * @param image The expression and watermark you need to add
@@ -131,32 +126,29 @@
     
     if (!url) return;
     
-    // 1. create AVAsset AVAsset contains all the information of video.
+    // 1. create AVAsset contains all the information of video.
     NSDictionary *opts = [NSDictionary dictionaryWithObject:@(YES) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
     AVURLAsset *videoAsset = [AVURLAsset URLAssetWithURL:url options:opts];
-    
-    // audio
-    AVURLAsset * audioAsset = [[AVURLAsset alloc] initWithURL:url options:opts];
+    AVURLAsset *audioAsset = [[AVURLAsset alloc] initWithURL:url options:opts];
     
     // 2. create AVMutableComposition. apple developer
     // AVMutableComposition is a mutable subclass of AVComposition you use when you want to create a new composition from existing assets. You can add and remove tracks, and you can add, remove, and scale time ranges.
     AVMutableComposition *mixComposition = [[AVMutableComposition alloc] init];
     
-    // 3. 视频通道  工程文件中的轨道，有音频轨、视频轨等，里面可以插入各种对应的素材
-    AVMutableCompositionTrack *videoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo
-                                                                        preferredTrackID:kCMPersistentTrackID_Invalid];
-    
+    // 3. Video Channel
+    // Engineering Document track, audio track, video track, etc., which can be inserted into a variety of corresponding materials
+    AVMutableCompositionTrack *videoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
     CMTime startTime = CMTimeMakeWithSeconds(0, videoAsset.duration.timescale);
     CMTime endTime = CMTimeMakeWithSeconds(videoAsset.duration.value /videoAsset.duration.timescale, videoAsset.duration.timescale);
-    
     [videoTrack insertTimeRange:CMTimeRangeMake(startTime, endTime)
                         ofTrack:[[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0]
                          atTime:kCMTimeZero error:nil];
     
-    //音频通道
-    AVMutableCompositionTrack * audioTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-    //音频采集通道
-    AVAssetTrack * audioAssetTrack = [[audioAsset tracksWithMediaType:AVMediaTypeAudio] firstObject];
+    // Audio channel
+    AVMutableCompositionTrack *audioTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+    
+    // Audio acquisition channel
+    AVAssetTrack *audioAssetTrack = [[audioAsset tracksWithMediaType:AVMediaTypeAudio] firstObject];
     [audioTrack insertTimeRange:CMTimeRangeMake(startTime, endTime) ofTrack:audioAssetTrack atTime:kCMTimeZero error:nil];
     
     // 3.1 AVMutableVideoCompositionInstruction
@@ -175,12 +167,11 @@
     if (videoTransform.a == 0 && videoTransform.b == -1.0 && videoTransform.c == 1.0 && videoTransform.d == 0) {
         isVideoAssetPortrait = YES;
     }
-    
     [videolayerInstruction setTransform:videoAssetTrack.preferredTransform atTime:kCMTimeZero];
     [videolayerInstruction setOpacity:0.0 atTime:endTime];
     // 3.3 - Add instructions
     mainInstruction.layerInstructions = [NSArray arrayWithObjects:videolayerInstruction,nil];
-    //AVMutableVideoComposition：管理所有视频轨道，可以决定最终视频的尺寸，裁剪需要在这里进行
+    //AVMutableVideoComposition：Managing all video tracks can determine the size of the final video, and the clipping needs to be done here.
     AVMutableVideoComposition *mainCompositionInst = [AVMutableVideoComposition videoComposition];
     
     CGSize naturalSize;
@@ -189,7 +180,6 @@
     } else {
         naturalSize = videoAssetTrack.naturalSize;
     }
-    
     float renderWidth, renderHeight;
     renderWidth = naturalSize.width;
     renderHeight = naturalSize.height;
@@ -212,14 +202,12 @@
     videoLayer.frame = frame;
     [parentLayer addSublayer:videoLayer];
     [parentLayer addSublayer:overlayLayer];
-    
     mainCompositionInst.animationTool = [AVVideoCompositionCoreAnimationTool
                                          videoCompositionCoreAnimationToolWithPostProcessingAsVideoLayer:videoLayer inLayer:parentLayer];
     
     // 4 - putout path
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    
     NSString *myPathDocs =  [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.mp4",fileName]];
     unlink([myPathDocs UTF8String]);
     NSURL* videoUrl = [NSURL fileURLWithPath:myPathDocs];
@@ -238,7 +226,7 @@
 }
 
 /**
- Text or barrage
+ text or barrage
  
  * @param url video path 
  * @param textLayer The text or barrage you need to add
@@ -253,28 +241,26 @@
     // 1. create AVAsset AVAsset contains all the information of video.
     NSDictionary *opts = [NSDictionary dictionaryWithObject:@(YES) forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
     AVURLAsset *videoAsset = [AVURLAsset URLAssetWithURL:url options:opts];
-    
-    // audio
-    AVURLAsset * audioAsset = [[AVURLAsset alloc] initWithURL:url options:opts];
+    AVURLAsset *audioAsset = [[AVURLAsset alloc] initWithURL:url options:opts];
     
     // 2. create AVMutableComposition. apple developer
     // AVMutableComposition is a mutable subclass of AVComposition you use when you want to create a new composition from existing assets. You can add and remove tracks, and you can add, remove, and scale time ranges.
     AVMutableComposition *mixComposition = [[AVMutableComposition alloc] init];
     
-    // 3. 视频通道  工程文件中的轨道，有音频轨、视频轨等，里面可以插入各种对应的素材
+    // 3. Video Channel
+    // Engineering Document track, audio track, video track, etc., which can be inserted into a variety of corresponding materials
     AVMutableCompositionTrack *videoTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeVideo
                                                                         preferredTrackID:kCMPersistentTrackID_Invalid];
     
     CMTime startTime = CMTimeMakeWithSeconds(0, videoAsset.duration.timescale);
     CMTime endTime = CMTimeMakeWithSeconds(videoAsset.duration.value /videoAsset.duration.timescale, videoAsset.duration.timescale);
-    
     [videoTrack insertTimeRange:CMTimeRangeMake(startTime, endTime)
                         ofTrack:[[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0]
                          atTime:kCMTimeZero error:nil];
     
-    //音频通道
+    // Audio channel
     AVMutableCompositionTrack * audioTrack = [mixComposition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-    //音频采集通道
+    // Audio acquisition channel
     AVAssetTrack * audioAssetTrack = [[audioAsset tracksWithMediaType:AVMediaTypeAudio] firstObject];
     [audioTrack insertTimeRange:CMTimeRangeMake(startTime, endTime) ofTrack:audioAssetTrack atTime:kCMTimeZero error:nil];
     
@@ -285,7 +271,6 @@
     // 3.2 AVMutableVideoCompositionLayerInstruction
     AVMutableVideoCompositionLayerInstruction *videolayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
     AVAssetTrack *videoAssetTrack = [[videoAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
-    
     BOOL isVideoAssetPortrait  = NO;
     CGAffineTransform videoTransform = videoAssetTrack.preferredTransform;
     if (videoTransform.a == 0 && videoTransform.b == 1.0 && videoTransform.c == -1.0 && videoTransform.d == 0) {
@@ -294,21 +279,20 @@
     if (videoTransform.a == 0 && videoTransform.b == -1.0 && videoTransform.c == 1.0 && videoTransform.d == 0) {
         isVideoAssetPortrait = YES;
     }
-    
     [videolayerInstruction setTransform:videoAssetTrack.preferredTransform atTime:kCMTimeZero];
     [videolayerInstruction setOpacity:0.0 atTime:endTime];
+    
     // 3.3 - Add instructions
     mainInstruction.layerInstructions = [NSArray arrayWithObjects:videolayerInstruction,nil];
-    //AVMutableVideoComposition：管理所有视频轨道，可以决定最终视频的尺寸，裁剪需要在这里进行
-    AVMutableVideoComposition *mainCompositionInst = [AVMutableVideoComposition videoComposition];
     
+    //AVMutableVideoComposition：Managing all video tracks can determine the size of the final video, and the clipping needs to be done here.
+    AVMutableVideoComposition *mainCompositionInst = [AVMutableVideoComposition videoComposition];
     CGSize naturalSize;
     if(isVideoAssetPortrait){
         naturalSize = CGSizeMake(videoAssetTrack.naturalSize.height, videoAssetTrack.naturalSize.width);
     } else {
         naturalSize = videoAssetTrack.naturalSize;
     }
-    
     float renderWidth, renderHeight;
     renderWidth = naturalSize.width;
     renderHeight = naturalSize.height;
@@ -335,7 +319,6 @@
     // 4 - putout path
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
-    
     NSString *myPathDocs =  [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.mp4",fileName]];
     unlink([myPathDocs UTF8String]);
     NSURL* videoUrl = [NSURL fileURLWithPath:myPathDocs];

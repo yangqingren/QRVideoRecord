@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
-@interface QRVideoRecordEdit : NSObject
+@interface QRVideoRecordEditingPutoutHelper : NSObject
 
 /**
  timeRange
@@ -18,18 +18,18 @@
    CMTimeMakeWithSeconds(0, videoAsset.duration.timescale);
  
  * @param endTime
-   CMTimeMakeWithSeconds(videoAsset.duration.value /videoAsset.duration.timescale, videoAsset.duration.timescale);
- 
  * CMTimeMake(a,b)
    CMTimeMakeWithSeconds(a,b)
  
  * @param fileName video name .mp4
  * @param completion urlPath
+ 
+ * If you need clipping video clips, then insert startTime and endTime to intercept the video.The parameters of video interception should be noted in CMTime format.
  */
 + (void)videoEditByTimeRangeWithUrl:(NSURL *)url startTime:(CMTime)startTime endTime:(CMTime)endTime fileName:(NSString *)fileName completion:(void (^)(NSString *urlPath))completion;
 
 /**
- Expression or watermark
+ expression or watermark
  
  * @param url video path
  * @param image The expression and watermark you need to add
@@ -40,7 +40,7 @@
 + (void)videoEditByImageWithUrl:(NSURL *)url image:(UIImage *)image frame:(CGRect)frame fileName:(NSString *)fileName completion:(void (^)(NSString *urlPath))completion;
 
 /**
- Text or barrage
+ text or barrage
  
  * @param url video path 
  * @param textLayer The text or barrage you need to add
