@@ -7,9 +7,9 @@
 //  Created by 杨庆人 on 2018/11/21.
 //
 
-#import "QRVideoRecordEditingPutoutHelper.h"
+#import "QRVideoRecordXEditingHelper.h"
 
-@implementation QRVideoRecordEditingPutoutHelper
+@implementation QRVideoRecordXEditingHelper
 
 /**
  timeRange

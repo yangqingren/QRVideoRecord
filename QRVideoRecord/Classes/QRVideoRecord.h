@@ -11,6 +11,6 @@
 #import "QRVideoRecordManager.h"
 #import "QRVideoRecordViewController.h"
 #import "SCRecordSession+qrRecordManager.h"
-#import "QRVideoRecordEditingPutoutHelper.h"
+#import "QRVideoRecordXEditingHelper.h"
 
 #endif /* QRVideoRecord_h */

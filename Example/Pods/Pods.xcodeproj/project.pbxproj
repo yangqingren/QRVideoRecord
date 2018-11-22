@@ -120,8 +120,8 @@
 		DD0C543F2B1AB5210DFABD86FF8D77B5 /* QRVideoRecord-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FD4878B31E84281CBDB83517166A494 /* QRVideoRecord-dummy.m */; };
 		DF000B227AC7870F0DC99505D02C111A /* SCFilterImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 628A5939247000DAA0B2E7074D82F846 /* SCFilterImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E0A09F354E358B88396A268CE666DC14 /* SCRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = F2006E3831C521EDC35A0360526E0B56 /* SCRecorder.m */; };
-		E40B0A5D6628B0571740F1B5BA5DEE9D /* QRVideoRecordEditingPutoutHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CEBEC101404717D72D9141D0A751C7F /* QRVideoRecordEditingPutoutHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E4F49E08CA2BD04F970CB6A27BA58152 /* QRVideoRecordEditingPutoutHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D35634BB15BE14997171421AF8FC02 /* QRVideoRecordEditingPutoutHelper.m */; };
+		E40B0A5D6628B0571740F1B5BA5DEE9D /* QRVideoRecordXEditingHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CEBEC101404717D72D9141D0A751C7F /* QRVideoRecordXEditingHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E4F49E08CA2BD04F970CB6A27BA58152 /* QRVideoRecordXEditingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 84D35634BB15BE14997171421AF8FC02 /* QRVideoRecordXEditingHelper.m */; };
 		E56CD512C5D42B6513DBA2AC7F7A2393 /* SCFilter+VideoComposition.h in Headers */ = {isa = PBXBuildFile; fileRef = 381A4EDBC72C67B75EFEE3EBCCA90F2B /* SCFilter+VideoComposition.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E66B4CC13616D556D3AF9A58A77A88A1 /* SCSampleBufferHolder.h in Headers */ = {isa = PBXBuildFile; fileRef = 56BBD72A0C16573E9276763DC248BB8A /* SCSampleBufferHolder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E72EDE323AC9F92EC8A00A93AC186093 /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B9B8D78C2F1FD1381308AEB68CA3F8B /* NSArray+MASAdditions.m */; };
@@ -211,7 +211,7 @@
 		261388CF19D8147862B603140D0AFEB4 /* SCSaveToCameraRollOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SCSaveToCameraRollOperation.h; path = Library/Sources/SCSaveToCameraRollOperation.h; sourceTree = "<group>"; };
 		28DBBAA0E1CE77865D299E27A8AEC281 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2A345AEAF21B93AA3879B59B50E79AD0 /* QRVideoRecord.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QRVideoRecord.h; path = QRVideoRecord/Classes/QRVideoRecord.h; sourceTree = "<group>"; };
-		2CEBEC101404717D72D9141D0A751C7F /* QRVideoRecordEditingPutoutHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QRVideoRecordEditingPutoutHelper.h; path = QRVideoRecord/Classes/QRVideoRecordEditingPutoutHelper.h; sourceTree = "<group>"; };
+		2CEBEC101404717D72D9141D0A751C7F /* QRVideoRecordXEditingHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = QRVideoRecordXEditingHelper.h; path = QRVideoRecord/Classes/QRVideoRecordXEditingHelper.h; sourceTree = "<group>"; };
 		2E4C154FB6740463EBF280A0BE99E2AE /* MASCompositeConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASCompositeConstraint.h; path = Masonry/MASCompositeConstraint.h; sourceTree = "<group>"; };
 		2FD4878B31E84281CBDB83517166A494 /* QRVideoRecord-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "QRVideoRecord-dummy.m"; sourceTree = "<group>"; };
 		32F74A8E17249927C203E42C28C8BE7C /* SCRecorder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SCRecorder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -268,7 +268,7 @@
 		7DF742E036CBD0F0FC631C62236D5AEC /* SCFilter+VideoComposition.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "SCFilter+VideoComposition.m"; path = "Library/Sources/SCFilter+VideoComposition.m"; sourceTree = "<group>"; };
 		829B09CF3D77ECC3B995C20B8D71F166 /* SCContext.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SCContext.m; path = Library/Sources/SCContext.m; sourceTree = "<group>"; };
 		84504471C108C97F91F4EFC7FC4E57A8 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84D35634BB15BE14997171421AF8FC02 /* QRVideoRecordEditingPutoutHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QRVideoRecordEditingPutoutHelper.m; path = QRVideoRecord/Classes/QRVideoRecordEditingPutoutHelper.m; sourceTree = "<group>"; };
+		84D35634BB15BE14997171421AF8FC02 /* QRVideoRecordXEditingHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = QRVideoRecordXEditingHelper.m; path = QRVideoRecord/Classes/QRVideoRecordXEditingHelper.m; sourceTree = "<group>"; };
 		8791A26BFAE618B8B0C7F0AB2863211A /* SCRecorder.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SCRecorder.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		88DB144C3502097401217D012E77FAAA /* Pods-QRVideoRecord_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-QRVideoRecord_Example.release.xcconfig"; sourceTree = "<group>"; };
 		899879D705FF9BFBED3028BA21D9C580 /* NSArray+MASAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+MASAdditions.h"; path = "Masonry/NSArray+MASAdditions.h"; sourceTree = "<group>"; };
@@ -529,8 +529,8 @@
 				2A345AEAF21B93AA3879B59B50E79AD0 /* QRVideoRecord.h */,
 				53BA3202AFDAC455EE6B96B0A5ADD5D6 /* QRVideoRecordViewController.h */,
 				4FF07A2CA6D98589C6FAA9B51ECFB95C /* QRVideoRecordViewController.m */,
-				2CEBEC101404717D72D9141D0A751C7F /* QRVideoRecordEditingPutoutHelper.h */,
-				84D35634BB15BE14997171421AF8FC02 /* QRVideoRecordEditingPutoutHelper.m */,
+				2CEBEC101404717D72D9141D0A751C7F /* QRVideoRecordXEditingHelper.h */,
+				84D35634BB15BE14997171421AF8FC02 /* QRVideoRecordXEditingHelper.m */,
 				C92A2B211E5717A4B57D522C6E18DB8C /* QRVideoRecordManager.h */,
 				508CA5E08270A5ABDC584B06C5B98DC3 /* QRVideoRecordManager.m */,
 				B0C74133C35E7B4546F0FA6D214647A9 /* SCRecordSession+qrRecordManager.h */,
@@ -736,7 +736,7 @@
 			files = (
 				021F32E55C0BCBA066B0F15F0D73A776 /* QRVideoRecord-umbrella.h in Headers */,
 				EC38666FCBB84D73E9DC2C9122002D7F /* QRVideoRecord.h in Headers */,
-				E40B0A5D6628B0571740F1B5BA5DEE9D /* QRVideoRecordEditingPutoutHelper.h in Headers */,
+				E40B0A5D6628B0571740F1B5BA5DEE9D /* QRVideoRecordXEditingHelper.h in Headers */,
 				53591F5789E995A07BEA3CCA4D4652C9 /* QRVideoRecordManager.h in Headers */,
 				24C071733BB829976350677A38600ED3 /* QRVideoRecordViewController.h in Headers */,
 				5B8CD580745EF7C7027584ED941C8530 /* SCRecordSession+qrRecordManager.h in Headers */,
@@ -1026,7 +1026,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD0C543F2B1AB5210DFABD86FF8D77B5 /* QRVideoRecord-dummy.m in Sources */,
-				E4F49E08CA2BD04F970CB6A27BA58152 /* QRVideoRecordEditingPutoutHelper.m in Sources */,
+				E4F49E08CA2BD04F970CB6A27BA58152 /* QRVideoRecordXEditingHelper.m in Sources */,
 				6BA62BBE70385D127A685FC2FBCFCCC2 /* QRVideoRecordManager.m in Sources */,
 				BBD7035643B617DF5CD619216CB115A7 /* QRVideoRecordViewController.m in Sources */,
 				F671DEAE3F4AEB82997A60B1411B4397 /* SCRecordSession+qrRecordManager.m in Sources */,
