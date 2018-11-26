@@ -198,8 +198,8 @@
     
     CALayer *parentLayer = [CALayer layer];
     CALayer *videoLayer = [CALayer layer];
-    parentLayer.frame = frame;
-    videoLayer.frame = frame;
+    parentLayer.frame = CGRectMake(0, 0, renderWidth, renderHeight);
+    videoLayer.frame = CGRectMake(0, 0, renderWidth, renderHeight);
     [parentLayer addSublayer:videoLayer];
     [parentLayer addSublayer:overlayLayer];
     mainCompositionInst.animationTool = [AVVideoCompositionCoreAnimationTool
@@ -308,8 +308,8 @@
     
     CALayer *parentLayer = [CALayer layer];
     CALayer *videoLayer = [CALayer layer];
-    parentLayer.frame = frame;
-    videoLayer.frame = frame;
+    parentLayer.frame = CGRectMake(0, 0, renderWidth, renderHeight);
+    videoLayer.frame = CGRectMake(0, 0, renderWidth, renderHeight);
     [parentLayer addSublayer:videoLayer];
     [parentLayer addSublayer:overlayLayer];
     
