@@ -219,7 +219,7 @@
     _recorder.captureSessionPreset = [SCRecorderTools bestCaptureSessionPresetCompatibleWithAllDevices];
     _recorder.maxRecordDuration = CMTimeMake(30 * _videoMaxTime, 30);
     _recorder.delegate = self;
-    _recorder.autoSetVideoOrientation = YES;
+    _recorder.autoSetVideoOrientation = NO;
     _recorder.initializeSessionLazily = NO;
     _recorder.previewView = self.scanPreviewView;
     
@@ -397,6 +397,7 @@
     void(^completionHandler)(NSURL *url, NSError *error) = ^(NSURL *url, NSError *error) {
         if (error == nil) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self removePreviewMode];
             [self doNextWhenVideoSavedSuccess];
         } else {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
